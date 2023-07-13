@@ -195,7 +195,7 @@ userContForm.onsubmit = (e) => {
     request("/members", "get")
       .then(res => {
         reloadMembersToBox(res.slice(0, 3), members_box)
-        members_box_count.innerHTML = "+" + res.length
+        members_box_count.innerHTML = "+" + (res.length - 3)
       }
       )
     setTimeout(() => {
@@ -213,7 +213,7 @@ userContForm.onsubmit = (e) => {
 request("/members", "get")
   .then(res => {
     reloadMembersToBox(res.slice(0, 3), members_box)
-    members_box_count.innerHTML = "+" + res.length
+    members_box_count.innerHTML = "+" + (res.length - 3)
   }
   )
 
@@ -345,7 +345,7 @@ let selectedArr = []
 
 select.onchange = () => {
   let val = JSON.parse(select.value)
-  // request("/members/", "delete", val.id)
+  request("/members/" + val.id, "delete",)
   selectedArr.push(val)
   request("/members", "get")
     .then(res => {
@@ -380,6 +380,9 @@ function reloadMembersToSelected(arr, place) {
     remove.onclick = () => {
       selectedArr = selectedArr.filter(selected => selected.id !== item.id)
       selected_item.remove()
+      request("members", "post", item)
+      let opt = new Option(item.name, JSON.stringify(item))
+      select.append(opt)
     }
   }
 }

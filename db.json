@@ -1,28 +1,28 @@
 {
   "members": [
     {
-      "id": "d96cb18a-88e1-49e2-a8b6-ff64f26a7663",
-      "name": "Андрей",
+      "id": "ee4ef77b-d5d9-4bd1-bf8c-167115dc539a",
+      "name": "Refat",
       "profession": "Developer",
       "icon": "member2.png"
-    },
-    {
-      "id": "8c778d1b-b6c5-4885-a12b-f53ef438634a",
-      "name": "Саня",
-      "profession": "Content witer",
-      "icon": "member5.png"
-    },
-    {
-      "id": "31a27370-7728-4a79-af52-89c3faf440d8",
-      "name": "Shavkat",
-      "profession": "Designer",
-      "icon": "member3.png"
     },
     {
       "id": "a8e44fcc-4987-4016-b342-cb06c3a6563f",
       "name": "Anastasia",
       "profession": "Content witer",
       "icon": "member6.png"
+    },
+    {
+      "id": "7fec5bbb-b56d-405b-b237-61d0f3cfcef0",
+      "name": "Андрей",
+      "profession": "Designer",
+      "icon": "member1.png"
+    },
+    {
+      "id": "890738b4-9984-4cab-b791-471b56fd771e",
+      "name": "Shavkat",
+      "profession": "Designer",
+      "icon": "member4.png"
     }
   ],
   "todos": [
