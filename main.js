@@ -342,13 +342,14 @@ function newOpt(arr, place) {
   }
 }
 let selectedArr = []
+
 select.onchange = () => {
   let val = JSON.parse(select.value)
   // request("/members/", "delete", val.id)
   selectedArr.push(val)
   request("/members", "get")
     .then(res => {
-      res = res.filter(id => id !== val.id)
+      res = res.filter(selected => selected.id !== val.id)
       newOpt(res, select)
     })
   reloadMembersToSelected(selectedArr, selected_items)
@@ -377,7 +378,7 @@ function reloadMembersToSelected(arr, place) {
     place.append(selected_item)
 
     remove.onclick = () => {
-      selectedArr = selectedArr.filter(id => id !== item.id)
+      selectedArr = selectedArr.filter(selected => selected.id !== item.id)
       selected_item.remove()
     }
   }
