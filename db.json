@@ -1,0 +1,37 @@
+{
+  "members": [
+    {
+      "id": "d96cb18a-88e1-49e2-a8b6-ff64f26a7663",
+      "name": "Андрей",
+      "profession": "Developer",
+      "icon": "member2.png"
+    },
+    {
+      "id": "8c778d1b-b6c5-4885-a12b-f53ef438634a",
+      "name": "Саня",
+      "profession": "Content witer",
+      "icon": "member5.png"
+    },
+    {
+      "id": "31a27370-7728-4a79-af52-89c3faf440d8",
+      "name": "Shavkat",
+      "profession": "Designer",
+      "icon": "member3.png"
+    },
+    {
+      "id": "a8e44fcc-4987-4016-b342-cb06c3a6563f",
+      "name": "Anastasia",
+      "profession": "Content witer",
+      "icon": "member6.png"
+    }
+  ],
+  "todos": [
+    {
+      "id": "13698f63-794e-4dfc-a066-94e6f337a5f1",
+      "title": "r",
+      "description": "r",
+      "members": "",
+      "status": "0"
+    }
+  ]
+}
