@@ -654,21 +654,52 @@ main {
     @include flex();
     justify-content: start;
     gap: 5px;
+    overflow-x: auto;
+    max-width: 700px;
+    padding-bottom: 5px;
+
+    &::-webkit-scrollbar {
+        height: 10px;
+        width: 1px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, 0.3);
+        border-radius: 5px;
+
+        &:hover {
+            background-color: rgba(0, 0, 0, 0.6);
+
+        }
+    }
+
+    &::-webkit-scrollbar-track {
+        background-color: rgba(0, 0, 0, 0.1);
+    }
 }
 
 .selected-item {
     @include flex();
     position: relative;
     background: #000000B3;
-
+    justify-content: start;
     width: fit-content;
+    min-width: 120px;
     gap: 10px;
     padding: 10px;
     border-radius: 7px;
     margin-top: 10px;
+    cursor: pointer;
 
     img {
         width: 30px;
+    }
+
+    transition: .3s ease;
+
+    &:hover {
+        background: #00000079;
+
     }
 }
 
