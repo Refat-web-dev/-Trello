@@ -41,102 +41,70 @@
       "name": "Visa",
       "profession": "Developer",
       "icon": "member5.png"
+    },
+    {
+      "id": "14cf3379-a6c4-44e7-90af-39d0ac801d59",
+      "name": "Visa",
+      "profession": "Projeckt manager",
+      "icon": "member5.png"
     }
   ],
   "todos": [
     {
-      "id": "dd51f066-b485-41a8-a123-4e0bd221c12b",
-      "title": "z",
-      "description": "",
-      "status": "0"
-    },
-    {
-      "id": "cdce025d-4770-4d60-bb85-a52631d8ceff",
-      "title": "a",
-      "description": "",
-      "members": "\" \"",
-      "status": "0"
-    },
-    {
-      "id": "382587bf-d1aa-4c9c-95f1-c1f4971868cd",
-      "title": "a",
-      "description": "s",
-      "status": "1"
-    },
-    {
-      "id": "9c3713b7-5a90-41d6-9ec1-e30068856bdb",
-      "title": "d;safkad",
-      "description": "lknnl",
-      "status": "1",
+      "id": "701efb2d-c8e0-4171-beb1-efed38dc77c7",
+      "title": "Buy milk",
+      "description": "idk",
+      "status": "ToDo",
+      "date": "27.07.2023",
       "members": [
-        {
-          "id": "8865bb6e-3ee5-4af5-9236-8117dc91e963",
-          "name": "Андрей",
-          "profession": "Designer",
-          "icon": "member2.png"
-        },
-        {
-          "id": "b0e1bc58-7172-4409-9b60-11db08055db3",
-          "name": "maxim",
-          "profession": "Projeckt manager",
-          "icon": "member3.png"
-        },
-        {
-          "id": "3e8236f7-1ca3-4b79-8b98-cddeff39989b",
-          "name": "refat",
-          "profession": "Developer",
-          "icon": "member4.png"
-        }
+        "member2.png",
+        "member4.png",
+        "member5.png",
+        "member4.png",
+        "member3.png",
+        "member4.png",
+        "member5.png",
+        "member5.png"
       ]
     },
     {
-      "id": "54f5e62d-17e7-4724-a87e-958c8f10855f",
-      "title": "sdgsf",
-      "description": "fsdxgasdsf",
-      "status": "2",
+      "id": "852462d0-e91c-48df-ad39-131ddabdb1f0",
+      "title": "SYREDTUFYGUH",
+      "description": "Qatewrystfjcghkvjlbkn;lhghyc,fhmvn bmkjlm",
+      "status": "Done",
+      "date": "30.07.2023",
       "members": [
-        {
-          "id": "3e8236f7-1ca3-4b79-8b98-cddeff39989b",
-          "name": "refat",
-          "profession": "Developer",
-          "icon": "member4.png"
-        },
-        {
-          "id": "d359aa27-2a7e-408c-9d8a-23784e0eaa7f",
-          "name": "Андрей1",
-          "icon": "member4.png",
-          "profession": "Projeckt manager"
-        },
-        {
-          "id": "2569f2fe-9311-4cec-8e76-0176e0b33d70",
-          "name": "shavkat",
-          "profession": "Projeckt manager",
-          "icon": "member5.png"
-        },
-        {
-          "id": "8865bb6e-3ee5-4af5-9236-8117dc91e963",
-          "name": "Андрей",
-          "profession": "Designer",
-          "icon": "member2.png"
-        },
-        {
-          "id": "24a8ec3c-f8e7-481d-9d54-e900d4b583d7",
-          "name": "Катя",
-          "profession": "Developer",
-          "icon": "member4.png"
-        },
-        {
-          "id": "b0e1bc58-7172-4409-9b60-11db08055db3",
-          "name": "maxim",
-          "profession": "Projeckt manager",
-          "icon": "member3.png"
-        },
-        {
-          "id": "02c2819c-b454-4653-b40b-79253733bef8",
-          "name": "Visa",
-          "profession": "Developer",
-          "icon": "member5.png"
-        }
+        "member2.png",
+        "member3.png"
+      ]
+    }
+  ],
+  "containers": [
+    {
+      "id": "7188e652-b5e1-42d0-8983-b620f8de18db",
+      "title": "ToDo",
+      "todos": [
+        "0",
+        "1",
+        "2"
+      ]
+    },
+    {
+      "id": "7188e652-b5e1-42d0-8983-b620f8de18db",
+      "title": "In Progress",
+      "todos": [
+        "0",
+        "1",
+        "2"
+      ]
+    },
+    {
+      "id": "7188e652-b5e1-42d0-8983-b620f8de18db",
+      "title": "Done",
+      "todos": [
+        "0",
+        "1",
+        "2"
       ]
     }
   ]

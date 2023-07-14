@@ -444,20 +444,42 @@ main {
         border-radius: 10px;
         background: #101204;
         color: gray;
+        min-width: 400px;
 
         h2 {
             margin-bottom: 10px;
         }
+
+    }
+
+    .todos {
+        @include flex();
+        flex-direction: column;
+        gap: 20px;
+
     }
 
     .todo {
+        position: relative;
+        width: 100%;
         padding: 10px;
         background: #22272B;
         border-radius: 10px;
         @include flex();
         flex-direction: column;
         align-items: start;
-        gap: 5px;
+        gap: 10px;
+        cursor: grab;
+        transition: .3s;
+
+        &:hover {
+            background: rgb(41, 47, 49);
+
+
+            .pencil {
+                opacity: 1;
+            }
+        }
 
         .todo__members {
             img {
@@ -712,4 +734,24 @@ main {
 
 .error {
     border: 1px solid red;
+}
+
+.pencil {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    border-radius: 5px;
+    padding: 5px;
+    transition: .3s ease;
+    cursor: pointer;
+    opacity: 0;
+
+    img {
+        width: 15px;
+        filter: invert(.5);
+    }
+
+    &:hover {
+        background-color: #00000060;
+    }
 }

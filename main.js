@@ -97,7 +97,7 @@ membersBoxForm.onsubmit = (e) => {
             .then(res => {
 
                 reloadMembersToBox(res.slice(0, 3), members_box)
-
+                newOpt(res, select)
                 if (res.length <= 3) {
                     members_box_count.innerHTML = "+"
                 } else {
@@ -245,7 +245,9 @@ todoForm.onsubmit = (e) => {
         fm.forEach((value, key) => {
             todo[key] = value
         })
-        todo.members = selectedArr
+        let membersArr = []
+        selectedArr.forEach(member => membersArr.push(member.icon))
+        todo.members = membersArr
 
         todoForm.reset()
         console.log(todo);
@@ -254,18 +256,106 @@ todoForm.onsubmit = (e) => {
         // members box
 
         // request("/todos", "get")
-        //   .then(res => {
-        //     todo_wrappers.forEach(wrapper => {
-        //       reloadTodos(res, wrapper)
-        //     })
-        //   }
-        //   )
+        //     .then(res => {
+        //         todo_wrappers.forEach(wrapper => {
+        //             reloadTodos(res, wrapper)
+        //         })
+        //     }
+        //     )
+
         setTimeout(() => {
             todoModal.style.display = "none"
             todoModal_bg.style.display = "none"
+            selectedArr = []
+            request("/members", "get")
+                .then(res => newOpt(res, select))
+
+            reloadMembersToSelected(selectedArr, selected_items)
         }, 500);
         todoModal.style.opacity = "0"
         todoModal.style.scale = ".5"
         todoModal_bg.style.opacity = "0"
+    }
+}
+let main = document.querySelector("main")
+
+request("/containers", "get")
+    .then(res => reloadContainers(res, main))
+
+function reloadContainers(arr, place) {
+    place.innerHTML = ""
+
+    console.log(arr);
+    for (let item of arr) {
+
+        let wrapper = document.createElement("div")
+        let h2 = document.createElement("h2")
+        let todos = document.createElement("div")
+        request("/todos", "get")
+            .then(res => {
+                reloadTodo(res, todos)
+            })
+        wrapper.className = "wrapper"
+        todos.className = "todos"
+        h2.contentEditable = `true`
+        h2.innerHTML = item.title
+        wrapper.append(h2, todos)
+        place.append(wrapper)
+
+    }
+}
+function reloadTodo(arr, place) {
+
+    place.innerHTML = ""
+
+    for (let item of arr) {
+
+        let todo = document.createElement("div")
+        let p = document.createElement("p")
+        let descr = document.createElement("div")
+        let todo_members = document.createElement("div")
+        let pencil = document.createElement("div")
+        let pencilSvg = document.createElement("img")
+
+
+        for (let avatar of item.members) {
+            let img = document.createElement("img")
+            img.src = `/public/icons/${avatar}`
+            todo_members.append(img)
+        }
+
+
+        let date = document.createElement("div")
+        let exec_member = document.createElement("img")
+        let span = document.createElement("span")
+
+        todo.className = "todo"
+        todo.draggable = "true";
+
+        pencil.className = "pencil"
+        p.innerHTML = item.title
+        descr.className = "description"
+        descr.innerHTML = item.description
+        todo_members.className = "todo_members"
+        date.className = "date"
+        exec_member.className = "exec-member"
+        exec_member.draggable = `false`
+        exec_member.src = "/public/icons/deadline.png"
+        pencilSvg.src = "/public/icons/pencil.svg"
+        span.innerHTML = item.date
+
+        todo.append(p, descr, todo_members, date, pencil)
+        pencil.append(pencilSvg)
+        date.append(exec_member, span)
+        request("/containers", "get")
+            .then(res => {
+                for (let cont of res) {
+                    if (cont.title === item.status) {
+
+                        place.append(todo)
+                    }
+                }
+            })
+
     }
 }

@@ -292,6 +292,7 @@
                         <img class="exec-member" draggable="false" src="/public/icons/deadline.png">
                         <span>21 июля</span>
                     </div>
+                    <div class="pencil"><img width="15" src="/public/icons/pencil.svg" alt=""></div>
                 </div>
             </div>
         </div>
@@ -353,14 +354,14 @@
 
             <p>Выберите статус</p>
             <select id="create-status" name="status">
-                <option value="0">Нужно сделать</option>
-                <option value="1">В процессе</option>
-                <option value="2">Выполнено</option>
+                <option value="ToDo">Нужно сделать</option>
+                <option value="In Progress">В процессе</option>
+                <option value="Done">Выполнено</option>
             </select>
 
 
             <p>Выберите дедлайн</p>
-            <input type="date" id="myDateInput" placeholder="13.07.2023">
+            <input type="date" name="date" id="myDateInput" placeholder="13.07.2023">
 
             <div class="btn-cont">
                 <button type="submit" id="new">Создать задачу</button>
