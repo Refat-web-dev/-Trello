@@ -436,8 +436,30 @@ header {
 main {
     padding: 10px;
     @include flex();
-    justify-content: space-around;
+    align-items: start;
+    justify-content: space-between;
+    height: 83%;
     gap: 50px;
+    overflow: auto;
+
+    &::-webkit-scrollbar {
+        height: 10px;
+        width: 1px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, 0.3);
+        border-radius: 5px;
+
+        &:hover {
+            background-color: rgba(0, 0, 0, 0.6);
+
+        }
+    }
+
+    &::-webkit-scrollbar-track {
+        background-color: rgba(0, 0, 0, 0.1);
+    }
 
     .wrapper {
         padding: 15px;
@@ -754,4 +776,21 @@ main {
     &:hover {
         background-color: #00000060;
     }
+}
+
+.hold {
+    border: 5px solid gray;
+    filter: brightness(5);
+    cursor: grabbing;
+}
+
+.invisible {
+    display: none;
+}
+
+.hovered {
+    @include flex();
+    background: gray;
+    border-style: dashed;
+    gap: 50px;
 }

@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { validate } from './modules/regex';
 import { useHttp } from './modules/https.request';
 import { changeGradientColors } from './modules/bodyColor';
-import { newOpt, reloadMembersToBox } from './modules/reloads';
+import { createStatus, newOpt, reloadMembersToBox } from './modules/reloads';
 import { calendar } from './modules/calendar';
 import { closeFunc, openFunc } from './modules/functions';
 
@@ -217,7 +217,11 @@ function reloadMembersToSelected(arr, place) {
     }
 }
 
-// regex
+let status_select = document.querySelector("#create-status")
+
+request("/containers", "get")
+    .then(res => createStatus(res, status_select))
+
 
 todoForm.onsubmit = (e) => {
 
@@ -248,20 +252,14 @@ todoForm.onsubmit = (e) => {
         let membersArr = []
         selectedArr.forEach(member => membersArr.push(member.icon))
         todo.members = membersArr
-
+        todo.status = JSON.parse(todo.status)
         todoForm.reset()
         console.log(todo);
 
         request("/todos", "post", todo)
-        // members box
 
-        // request("/todos", "get")
-        //     .then(res => {
-        //         todo_wrappers.forEach(wrapper => {
-        //             reloadTodos(res, wrapper)
-        //         })
-        //     }
-        //     )
+        request("/containers", "get")
+            .then(res => reloadContainers(res, main))
 
         setTimeout(() => {
             todoModal.style.display = "none"
@@ -277,6 +275,7 @@ todoForm.onsubmit = (e) => {
         todoModal_bg.style.opacity = "0"
     }
 }
+
 let main = document.querySelector("main")
 
 request("/containers", "get")
@@ -285,7 +284,6 @@ request("/containers", "get")
 function reloadContainers(arr, place) {
     place.innerHTML = ""
 
-    console.log(arr);
     for (let item of arr) {
 
         let wrapper = document.createElement("div")
@@ -297,13 +295,29 @@ function reloadContainers(arr, place) {
             })
         wrapper.className = "wrapper"
         todos.className = "todos"
+        todos.id = item.id
         h2.contentEditable = `true`
         h2.innerHTML = item.title
         wrapper.append(h2, todos)
         place.append(wrapper)
 
+        todos.ondragover = (event) => {
+            event.preventDefault()
+        }
+        todos.ondragenter = function (event) {
+            event.preventDefault()
+            this.className += ' hovered'
+        }
+        todos.ondragleave = function () {
+            this.className = 'todos'
+        }
+        todos.ondrop = function () {
+            this.className = 'todos'
+            // this.append(JSON.stringify(item))
+        }
     }
 }
+
 function reloadTodo(arr, place) {
 
     place.innerHTML = ""
@@ -342,20 +356,24 @@ function reloadTodo(arr, place) {
         exec_member.draggable = `false`
         exec_member.src = "/public/icons/deadline.png"
         pencilSvg.src = "/public/icons/pencil.svg"
-        span.innerHTML = item.date
+        const number = new Date();
+        number.setMonth(item.date.split(".")[1] - 1);
+        span.innerHTML = item.date.split(".")[0] + " " + number.toLocaleString('en-US', { month: 'long' })
+
 
         todo.append(p, descr, todo_members, date, pencil)
         pencil.append(pencilSvg)
         date.append(exec_member, span)
-        request("/containers", "get")
-            .then(res => {
-                for (let cont of res) {
-                    if (cont.title === item.status) {
-
-                        place.append(todo)
-                    }
-                }
-            })
+        if (place.id === item.status) {
+            place.append(todo)
+        }
+        todo.ondragstart = () => {
+            todo.classList.add('hold')
+            setTimeout(() => (todo.className = 'invisible'), 0)
+        }
+        todo.ondragend = () => {
+            todo.className = 'todo'
+        }
 
     }
 }

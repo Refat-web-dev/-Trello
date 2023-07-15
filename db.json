@@ -51,31 +51,77 @@
   ],
   "todos": [
     {
-      "id": "701efb2d-c8e0-4171-beb1-efed38dc77c7",
-      "title": "Buy milk",
-      "description": "idk",
-      "status": "ToDo",
-      "date": "27.07.2023",
+      "id": "56df57fc-8487-4a27-96be-30b9899ebb06",
+      "title": "New Task",
+      "description": "Buy a car for the TRAVEL",
+      "status": "7188e652-b5e1-42d0-8983-b620f8de18db",
+      "date": "15.07.2023",
       "members": [
-        "member2.png",
-        "member4.png",
-        "member5.png",
-        "member4.png",
-        "member3.png",
-        "member4.png",
         "member5.png",
         "member5.png"
       ]
     },
     {
-      "id": "852462d0-e91c-48df-ad39-131ddabdb1f0",
-      "title": "SYREDTUFYGUH",
-      "description": "Qatewrystfjcghkvjlbkn;lhghyc,fhmvn bmkjlm",
-      "status": "Done",
+      "id": "591e1c61-b119-43f0-a948-25fc0957a71e",
+      "title": "REWPOKF",
+      "description": "POFKAOK",
+      "status": "7188e652-b5e2-42d0-8983-b620f8de18db",
+      "date": "15.07.2023",
+      "members": [
+        "member3.png",
+        "member2.png",
+        "member5.png"
+      ]
+    },
+    {
+      "id": "25956aa4-e289-4242-98e7-426dd4918462",
+      "title": "flEDK'MFKDM",
+      "description": "PKDOkv;",
+      "status": "7188e652-b5e2-42d0-8983-b620f8de18db",
+      "date": "25.07.2023",
+      "members": [
+        "member3.png"
+      ]
+    },
+    {
+      "id": "bbd01882-e743-4427-ab70-a6c39f0358e8",
+      "title": "LDKMVKMSD",
+      "description": "L;DK'FLDMA",
+      "status": "7188e652-b5e3-42d0-8983-b620f8de18db",
       "date": "30.07.2023",
       "members": [
-        "member2.png",
+        "member5.png"
+      ]
+    },
+    {
+      "id": "60216dd2-e10e-465f-aab9-894d9c0d588e",
+      "title": "LKMSVK",
+      "description": "123",
+      "status": "7188e652-b5e2-42d0-8983-b620f8de18db",
+      "date": "28.07.2023",
+      "members": [
         "member3.png"
+      ]
+    },
+    {
+      "id": "4e251824-226f-409c-818c-16021bad8726",
+      "title": "{pfeAEO",
+      "description": "FPKFWL;E,F;LAWE,F;LW,D",
+      "status": "7188e652-b5e1-42d0-8983-b620f8de18db",
+      "date": "27.07.2023",
+      "members": [
+        "member2.png",
+        "member4.png"
+      ]
+    },
+    {
+      "id": "b1cbd502-408f-48d2-b23e-3c0729f2964a",
+      "title": "kjuygftmghjkKHJG",
+      "description": "jhkl/j;jh/bjg",
+      "status": "7188e652-b5e3-42d0-8983-b620f8de18db",
+      "date": "01.08.2023",
+      "members": [
+        "member5.png"
       ]
     }
   ],
@@ -83,29 +129,17 @@
     {
       "id": "7188e652-b5e1-42d0-8983-b620f8de18db",
       "title": "ToDo",
-      "todos": [
-        "0",
-        "1",
-        "2"
-      ]
+      "todos": []
     },
     {
-      "id": "7188e652-b5e1-42d0-8983-b620f8de18db",
+      "id": "7188e652-b5e2-42d0-8983-b620f8de18db",
       "title": "In Progress",
-      "todos": [
-        "0",
-        "1",
-        "2"
-      ]
+      "todos": []
     },
     {
-      "id": "7188e652-b5e1-42d0-8983-b620f8de18db",
+      "id": "7188e652-b5e3-42d0-8983-b620f8de18db",
       "title": "Done",
-      "todos": [
-        "0",
-        "1",
-        "2"
-      ]
+      "todos": []
     }
   ]
 }

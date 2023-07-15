@@ -28,3 +28,13 @@ export function newOpt(arr, place) {
     }
 }
 
+export function createStatus(arr, place) {
+    place.innerHTML = ""
+
+    let ghostOpt = new Option(" ", " ")
+    for (let item of arr) {
+        let opt = new Option(item.title, JSON.stringify(item.id))
+        ghostOpt.hidden = true;
+        place.append(ghostOpt, opt)
+    }
+}
