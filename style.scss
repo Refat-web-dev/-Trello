@@ -296,6 +296,57 @@ header {
         &:active {
             scale: .7;
         }
+
+    }
+
+    .board_container {
+        @include modal();
+        @include flex();
+        height: 0;
+        overflow: hidden;
+        flex-direction: column;
+        gap: 5px;
+        align-items: start;
+        top: 210px;
+        left: 395px;
+        z-index: 1;
+        padding: 15px;
+        position: absolute;
+        background-color: #fff;
+        color: #000000;
+        font-size: 16px;
+        border-radius: 2px;
+        display: none;
+        opacity: 0;
+        transition: .5s linear;
+
+        p {
+            cursor: pointer;
+            transition: .3s ease;
+            border-radius: 5px;
+            padding: 5px;
+            width: 100%;
+
+            &:hover {
+                background: #b7b7b7;
+            }
+        }
+
+        .board-close {
+            @include close();
+            top: 0;
+            right: 3px;
+
+            &:hover,
+            &:focus {
+                color: black;
+            }
+        }
+    }
+
+    .board-btn-next {
+        rotate: 180deg;
+        transition: .3s ease;
     }
 
     .divide {
@@ -437,10 +488,11 @@ main {
     padding: 10px;
     @include flex();
     align-items: start;
-    justify-content: space-between;
+    justify-content: start;
     height: 83%;
-    gap: 50px;
-    overflow: auto;
+    gap: 30px;
+    overflow: scroll;
+    max-width: 100vw;
 
     &::-webkit-scrollbar {
         height: 10px;
@@ -474,11 +526,47 @@ main {
 
     }
 
+    .addCont {
+        position: absolute;
+        top: calc(0% + 50px);
+        left: 53%;
+        width: 50px;
+        height: 50px;
+        background: #cbc9c9;
+        border-radius: 100%;
+        box-shadow: 0 0 1px;
+        cursor: pointer;
+        transition: .3s ease;
+
+        &::before,
+        &::after {
+            content: '';
+            @include modal();
+            position: absolute;
+            width: 30px;
+            height: 5px;
+            background: #595656;
+            border-radius: 10px;
+        }
+
+        &::before {
+            rotate: 90deg;
+        }
+
+        &:hover {
+            filter: brightness(1.1)
+        }
+
+    }
+
+
+
     .todos {
         @include flex();
         flex-direction: column;
         gap: 20px;
-
+        min-height: 50px;
+        border-radius: 10px;
     }
 
     .todo {
@@ -520,6 +608,10 @@ main {
     }
 }
 
+.finded {
+    z-index: 1000;
+    box-shadow: 0px 0px 10px 2px white;
+}
 
 
 .addNewUserWindow {
@@ -793,4 +885,47 @@ main {
     background: gray;
     border-style: dashed;
     gap: 50px;
+}
+
+.canvas-for-search {
+    display: none;
+    opacity: 0;
+    transition: .4s ease;
+    width: 100%;
+    height: calc(100% - 47px);
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    background-color: rgba(0, 0, 0, .5);
+    backdrop-filter: blur(4px);
+    z-index: 1000
+}
+
+.contModal {
+    @include modal();
+    top: -10%;
+    display: none;
+    transition: .5s linear;
+
+    form {
+
+        input {
+            padding: 20px;
+            width: 500px;
+            background: #000000ff;
+            color: #A6B1BE;
+            border-radius: 5px;
+            font-size: 16px;
+
+            &::placeholder {
+                color: #A6B1BE;
+
+            }
+        }
+    }
+}
+
+.contModal_bg {
+    @include modal_bg();
+    transition: .5s linear;
 }

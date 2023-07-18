@@ -74,7 +74,7 @@
                         d="M16.436 15.085l3.94 4.01a1 1 0 01-1.425 1.402l-3.938-4.006a7.5 7.5 0 111.423-1.406zM10.5 16a5.5 5.5 0 100-11 5.5 5.5 0 000 11z"
                         fill="currentColor" fill-rule="evenodd"></path>
                 </svg>
-                <input type="text" placeholder="Поиск">
+                <input type="text" placeholder="Поиск" id="search">
             </form>
         </div>
         <div class="header__right">
@@ -155,30 +155,32 @@
                             fill="black"></path>
                     </svg>
                     <span>По доске</span>
+                    
                 </li>
                 <li>
                     <svg width="24" height="24" role="presentation" focusable="false" viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M11.2929 16.7071L4.22185 9.63606C3.83132 9.24554 3.83132 8.61237 4.22185 8.22185C4.61237 7.83133 5.24554 7.83133 5.63606 8.22185L12 14.5858L18.364 8.22185C18.7545 7.83132 19.3877 7.83132 19.7782 8.22185C20.1687 8.61237 20.1687 9.24554 19.7782 9.63606L12.7071 16.7071C12.3166 17.0977 11.6834 17.0977 11.2929 16.7071Z"
-                            fill="currentColor"></path>
-                    </svg>
-                </li>
-                <span class="divide"></span>
-                <div class="members-box">
-                    <div class="members-box__item"><img src="/public/icons/member1.png"></div>
-                    <div class="members-box__item"><img src="/public/icons/member2.png"></div>
-                    <div class="members-box__item"><img src="/public/icons/member3.png"></div>
-                </div>
-                <div class="members-box__item last-child">
-                    <p>+<span id="count">8</span></p>
-                </div>
-                <li class="board-btn" id="open_add_modal">
-                    <span>Добавить</span>
-                </li>
-            </ul>
-        </div>
-        <div class="sub-head__right">
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                    d="M11.2929 16.7071L4.22185 9.63606C3.83132 9.24554 3.83132 8.61237 4.22185 8.22185C4.61237 7.83133 5.24554 7.83133 5.63606 8.22185L12 14.5858L18.364 8.22185C18.7545 7.83132 19.3877 7.83132 19.7782 8.22185C20.1687 8.61237 20.1687 9.24554 19.7782 9.63606L12.7071 16.7071C12.3166 17.0977 11.6834 17.0977 11.2929 16.7071Z"
+                    fill="currentColor"></path>
+                </svg>
+            </li>
+            <span class="divide"></span>
+            <div class="members-box">
+                <div class="members-box__item"><img src="/public/icons/member1.png"></div>
+                <div class="members-box__item"><img src="/public/icons/member2.png"></div>
+                <div class="members-box__item"><img src="/public/icons/member3.png"></div>
+            </div>
+            <div class="members-box__item last-child">
+                <p>+<span id="count">8</span></p>
+            </div>
+            <li class="board-btn" id="open_add_modal">
+                <span>Добавить</span>
+            </li>
+        </ul>
+        <div class="board_container"></div>
+    </div>
+    <div class="sub-head__right">
             <div class="actions">
                 <ul>
                     <li>
@@ -247,6 +249,7 @@
         </div>
     </div>
     <main>
+
         <div class="wrapper">
             <h2 contenteditable="true">Нужно сделать</h2>
             <div class="todos">
@@ -330,7 +333,6 @@
         </form>
         <div class="close close-btn_styling">x</div>
     </div>
-
     <div class="todoModal_bg todoModal_exit">
     </div>
     <div class="todoModal">
@@ -354,9 +356,9 @@
 
             <p>Выберите статус</p>
             <select id="create-status" name="status">
-                <option value="ToDo">Нужно сделать</option>
-                <option value="In Progress">В процессе</option>
-                <option value="Done">Выполнено</option>
+                <option>Нужно сделать</option>
+                <option>В процессе</option>
+                <option>Выполнено</option>
             </select>
 
 
@@ -369,7 +371,14 @@
             </div>
         </form>
     </div>
-    <!-- <div class="trans-after"></div> -->
+    <div class="contModal_bg"></div>
+    <div class="contModal">
+        <form name="createContForm">
+            <input type="text" name="title" placeholder="Add a name">
+        </form>
+    </div>
+    <div class="canvas-for-search"></div>
+
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script type="module" src="/main.js"></script>
 </body>
