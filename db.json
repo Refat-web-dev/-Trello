@@ -30,7 +30,7 @@
       "id": "b332c2c8-f911-4603-af13-2906ff81fa96",
       "title": "Test",
       "description": "testtt",
-      "status": "выполнено",
+      "status": "нужносделать",
       "date": "24.07.2023",
       "members": [
         "member5.png",
@@ -38,10 +38,10 @@
       ]
     },
     {
-      "id": "Нужно сделать",
+      "id": "2ca9398f-eda6-47b6-a7d6-c30f7ec3f3a5",
       "title": "e",
       "description": "d",
-      "status": "нужносделать",
+      "status": "hello",
       "date": "30.07.2023",
       "members": [
         "member5.png"
@@ -51,7 +51,7 @@
       "id": "2ca9398f-eda8-47b6-a7d6-c30f7ec3f3a5",
       "title": "Re",
       "description": "fa",
-      "status": "Нужно сделать",
+      "status": "r",
       "date": "26.07.2023",
       "members": [
         "member5.png"
@@ -61,7 +61,7 @@
       "id": "f66f4b23-2fe0-4147-9fd8-584e3e8ac493",
       "title": "reeeeee",
       "description": "refat",
-      "status": "Нужно сделать",
+      "status": "выполнено",
       "date": "17.07.2023",
       "members": [
         "member5.png"
@@ -71,7 +71,7 @@
       "id": "d836faaa-f6eb-41f0-99d7-d5fbcece485f",
       "title": "TTTTTea",
       "description": "refasdasfad",
-      "status": "Нужно сделать",
+      "status": "впроцессе",
       "date": "25.07.2023",
       "members": [
         "member5.png"
@@ -81,7 +81,7 @@
       "id": "b00050e1-0948-4e34-8f87-472b233e48d6",
       "title": "todo sample",
       "description": "todo something",
-      "status": "Нужно сделать",
+      "status": "issues",
       "date": "31.07.2023",
       "members": [
         "member2.png",
@@ -94,7 +94,7 @@
       "id": "38d2e806-1fc1-45ef-be74-6c2d0f0e7e14",
       "title": "sampleTodo",
       "description": "mememememe",
-      "status": "Нужно сделать",
+      "status": "нужно",
       "date": "30.07.2023",
       "members": [
         "member5.png",

@@ -97,6 +97,8 @@ export function reloadContainers(arr, place) {
         todos.ondrop = function () {
             this.className = 'todos'
             temp.forEach((item) => {
+
+                console.log(item);
                 if (item.id == temp_id) {
                     request("/todos/" + item.id, "patch", {
                         status: this.getAttribute(['data'])
@@ -105,7 +107,6 @@ export function reloadContainers(arr, place) {
                 }
             })
         }
-
         addCont.onclick = () => {
             contModal.style.display = "block"
             setTimeout(() => {
@@ -124,7 +125,7 @@ export function reloadContainers(arr, place) {
 export function reloadTodo(arr, place) {
 
     place.innerHTML = ""
-
+    
     for (let item of arr) {
 
         let todo = document.createElement("div")
@@ -172,11 +173,10 @@ export function reloadTodo(arr, place) {
         pencil.append(pencilSvg)
         date.append(exec_member, span)
 
-        let blockToAppend = document.querySelector(`#нужносделать`)
-        console.log(blockToAppend);
+        let blockToAppend = document.querySelector(`#${item.status}`)
         blockToAppend.append(todo)
 
-
+        console.log(item.status);
         temp.push(todo)
 
         todo.ondragstart = () => {

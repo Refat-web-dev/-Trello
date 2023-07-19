@@ -75,7 +75,6 @@ request("/containers", "get")
 
             p.onclick = () => {
                 let key = p.getAttribute("data-name")
-                console.log(key);
                 request("/containers?title=" + key, "get")
                     .then(res => reloadContainers(res, main))
             }
@@ -91,7 +90,6 @@ request("/containers", "get")
             h2.onkeyup = () => {
 
                 request("/containers/" + h2.id, "patch", { title: h2.innerHTML })
-                console.log(h2.innerHTML);
             }
         })
 
@@ -479,8 +477,7 @@ createContForm.onsubmit = (e) => {
     if (inpFilled) {
 
         let container = {
-            id: uuidv4(),
-            todos_id: []
+            id: uuidv4()
         }
         let fm = new FormData(createContForm)
 
@@ -489,7 +486,6 @@ createContForm.onsubmit = (e) => {
         })
 
         createContForm.reset()
-        console.log(container);
 
         request("/containers", "post", container)
 
