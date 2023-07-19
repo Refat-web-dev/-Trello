@@ -1,3 +1,7 @@
+import { temp } from "../main"
+import { useHttp } from "./https.request"
+
+let { request } = useHttp()
 // subhead memberBox
 
 export function reloadMembersToBox(arr, place) {
@@ -33,6 +37,7 @@ export function createStatus(arr, place) {
     place.innerHTML = ""
 
     let ghostOpt = new Option(" ", " ")
+
     for (let item of arr) {
         let opt = new Option(item.title, JSON.stringify(item.id))
         ghostOpt.hidden = true;
@@ -42,6 +47,79 @@ export function createStatus(arr, place) {
 
 // todo reload
 
+let temp_id
+// containers
+export function reloadContainers(arr, place) {
+
+    let addCont = document.createElement("div")
+
+    addCont.className = "addCont"
+
+    place.innerHTML = ""
+    place.append(addCont)
+
+    for (let item of arr) {
+
+        let data = item.title.toLowerCase().replaceAll(' ', '')
+
+        let wrapper = document.createElement("div")
+        let h2 = document.createElement("h2")
+        let todos = document.createElement("div")
+
+        wrapper.className = "wrapper"
+        wrapper.setAttribute("data-status", item.title)
+
+        todos.className = "todos"
+        todos.setAttribute('data', data)
+        todos.id = item.title.toLowerCase().replaceAll(' ', '')
+        h2.contentEditable = `true`
+        h2.innerHTML = item.title
+        h2.className = "status-edit"
+        h2.id = item.id
+
+        wrapper.append(h2, todos)
+        place.append(wrapper)
+
+
+        todos.ondragover = (event) => {
+            event.preventDefault()
+        }
+
+        todos.ondragenter = function (event) {
+            event.preventDefault()
+            this.className += ' hovered'
+        }
+
+        todos.ondragleave = function () {
+            this.className = 'todos'
+        }
+
+        todos.ondrop = function () {
+            this.className = 'todos'
+            temp.forEach((item) => {
+                if (item.id == temp_id) {
+                    request("/todos/" + item.id, "patch", {
+                        status: this.getAttribute(['data'])
+                    })
+                    this.append(item)
+                }
+            })
+        }
+
+        addCont.onclick = () => {
+            contModal.style.display = "block"
+            setTimeout(() => {
+                contModal.style.top = "12%"
+            }, 0);
+            contModal_bg.style.display = "block"
+            setTimeout(() => {
+                contModal_bg.style.opacity = "1"
+            }, 0);
+        }
+    }
+}
+
+// reload todo
 
 export function reloadTodo(arr, place) {
 
@@ -57,11 +135,13 @@ export function reloadTodo(arr, place) {
         let pencilSvg = document.createElement("img")
 
 
+
         for (let avatar of item.members) {
             let img = document.createElement("img")
             img.src = `/public/icons/${avatar}`
             todo_members.append(img)
         }
+
 
 
         let date = document.createElement("div")
@@ -70,6 +150,8 @@ export function reloadTodo(arr, place) {
 
         todo.className = "todo"
         todo.draggable = "true";
+        todo.id = item.id
+        todo.setAttribute = ("data", item.status)
 
         pencil.className = "pencil"
         p.innerHTML = item.title
@@ -89,13 +171,21 @@ export function reloadTodo(arr, place) {
         todo.append(p, descr, todo_members, date, pencil)
         pencil.append(pencilSvg)
         date.append(exec_member, span)
-        if (place.id === item.status) {
-            place.append(todo)
-        }
+
+        let blockToAppend = document.querySelector(`#нужносделать`)
+        console.log(blockToAppend);
+        blockToAppend.append(todo)
+
+
+        temp.push(todo)
+
         todo.ondragstart = () => {
+            temp_id = item.id
             todo.classList.add('hold')
             setTimeout(() => (todo.className = 'invisible'), 0)
+            temp_id = item.id
         }
+
         todo.ondragend = () => {
             todo.className = 'todo'
         }

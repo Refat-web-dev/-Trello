@@ -2,12 +2,13 @@ import { v4 as uuidv4 } from 'uuid';
 import { validate } from './modules/regex';
 import { useHttp } from './modules/https.request';
 import { changeGradientColors } from './modules/bodyColor';
-import { createStatus, newOpt, reloadMembersToBox, reloadTodo } from './modules/reloads';
+import { createStatus, newOpt, reloadContainers, reloadMembersToBox, reloadTodo } from './modules/reloads';
 import { calendar } from './modules/calendar';
 import { closeFunc, openFunc } from './modules/functions';
 
 let { request } = useHttp()
 calendar("#myDateInput")
+
 
 changeGradientColors();
 
@@ -15,16 +16,161 @@ let open_add_modal = document.querySelector("#open_add_modal")
 let add_modal = document.querySelector(".addNewUserWindow")
 let add_modal_bg = document.querySelector(".addNewUserWindow_backGround")
 let add_modal_close = document.querySelectorAll(".close")
+let search_inp = document.querySelector('#search')
+let search_canvas = document.querySelector('.canvas-for-search')
+let main = document.querySelector('main')
+let todos_for_search = []
+
+
+export let temp = []
+
+
+let boardBtn = document.querySelector(".board-btn")
+let board_container = document.querySelector(".board_container")
+boardBtn.onclick = () => {
+    board_container.style.display = "block"
+    setTimeout(() => {
+        board_container.style.opacity = "1"
+    }, 0);
+    boardBtn.nextElementSibling.classList.add("board-btn-next")
+}
+request("/containers", "get")
+    .then(res => {
+        reloadContainers(res, main)
+
+
+        board_container.innerHTML = ""
+
+        let close = document.createElement("div")
+        let all = document.createElement("p")
+
+        close.className = "board-close"
+        all.innerHTML = "All"
+        close.innerHTML = "x"
+
+        board_container.append(all, close)
+
+        close.onclick = () => {
+            board_container.style.opacity = "0"
+            setTimeout(() => {
+                board_container.style.display = "none"
+            }, 300);
+            boardBtn.nextElementSibling.classList.remove("board-btn-next")
+        }
+
+        all.onclick = () => {
+            request("/containers", "get")
+                .then(res => reloadContainers(res, main))
+        }
+
+        for (let item of res) {
+
+
+            let p = document.createElement("p")
+
+            p.innerHTML = item.title
+            p.setAttribute("data-name", item.title)
+
+            board_container.append(p)
+
+            p.onclick = () => {
+                let key = p.getAttribute("data-name")
+                console.log(key);
+                request("/containers?title=" + key, "get")
+                    .then(res => reloadContainers(res, main))
+            }
+        }
+
+
+    }).then(() => {
+
+        let status_list = main.querySelectorAll(".status-edit")
+
+        status_list.forEach(h2 => {
+
+            h2.onkeyup = () => {
+
+                request("/containers/" + h2.id, "patch", { title: h2.innerHTML })
+                console.log(h2.innerHTML);
+            }
+        })
+
+        request("/todos", "get")
+            .then(res => {
+                todos_for_search = res
+
+                let todos = document.querySelectorAll(".todos")
+
+                todos.forEach(todo_wrap => {
+                    reloadTodo(res, todo_wrap)
+                })
+            })
+    }
+
+    )
+
+
+
 
 open_add_modal.onclick = () => {
     openFunc(add_modal, add_modal_bg)
+}
+search_inp.onfocus = () => {
+    search_canvas.style.display = "block"
+    setTimeout(() => {
+        search_canvas.style.opacity = "1"
+    }, 0);
+}
+search_inp.onblur = () => {
+    search_canvas.style.opacity = "0"
+    setTimeout(() => {
+        search_canvas.style.display = "none"
+    }, 400);
+    let elems = document.querySelectorAll('.finded')
+    elems.forEach(el => el.classList.remove('finded'))
 }
 
 add_modal_close.forEach(btn => {
     btn.onclick = () => {
         closeFunc(add_modal, add_modal_bg)
+        icons.forEach(icon => {
+            icon.className = "icon"
+            icon.style.border = "none"
+            inp.style.border = "none"
+
+        })
     }
 })
+
+search_inp.oninput = (e) => {
+    let val = e.target.value.toLowerCase().trim()
+
+    let filtered = todos_for_search.filter(item => item.title.toLowerCase().trim().includes(val))
+
+    if (val) {
+        let elems = document.querySelectorAll('.finded')
+        elems.forEach(el => el.classList.remove('finded'))
+
+        for (let finded of filtered) {
+            let elem = document.getElementById(finded.id)
+            let { bottom, top, height } = elem.getBoundingClientRect()
+            elem.classList.add('finded')
+
+            main.scrollTo({
+                top: top - (height),
+                behavior: "smooth"
+            })
+        }
+    } else {
+        for (let finded of filtered) {
+            let elem = document.getElementById(finded.id)
+            elem.classList.remove('finded')
+        }
+    }
+
+
+
+}
 
 let icons = document.querySelectorAll(".icons-cont div")
 
@@ -35,6 +181,7 @@ icons.forEach(icon => {
 
         icons.forEach(icon => icon.className = "icon")
         icon.className = "selectedMember"
+        icon.style.border = "none"
 
     }
 })
@@ -66,12 +213,25 @@ membersBoxForm.onsubmit = (e) => {
     let allInputsFilled = true
 
     inp.classList.remove("error")
+    icons.forEach(icon => {
+        if (inp.value.length === 0 && !icon.classList.contains("selectedMember")) {
+            allInputsFilled = false
+            icon.style.border = "2px solid red"
+            icon.style.borderRadius = "100%"
+            inp.classList.add("error")
 
-    if (inp.value.length === 0) {
-        inp.classList.add("error")
-        allInputsFilled = false
-    }
 
+            for (let i = 0; i < icons.length; i++) {
+                if (!inp.value.length === 0 && icons[i].classList.contains("selectedMember")) {
+                    icon.style.border = "2px solid none"
+                    allInputsFilled = true;
+
+
+                    break; // Прерываем цикл, если найден элемент с классом selectedMember
+                }
+            }
+        }
+    })
     if (allInputsFilled) {
         let member = {
             id: uuidv4(),
@@ -223,6 +383,7 @@ request("/containers", "get")
     .then(res => createStatus(res, status_select))
 
 
+
 todoForm.onsubmit = (e) => {
 
     e.preventDefault()
@@ -237,7 +398,10 @@ todoForm.onsubmit = (e) => {
             allInputsFilled = false
         }
     })
-
+    if (selectedArr.length === 0) {
+        allInputsFilled = false
+        select.classList.add("error")
+    }
 
     if (allInputsFilled) {
         let todo = {
@@ -245,21 +409,29 @@ todoForm.onsubmit = (e) => {
         }
 
         let fm = new FormData(todoForm)
+        let membersArr = []
 
         fm.forEach((value, key) => {
             todo[key] = value
         })
-        let membersArr = []
         selectedArr.forEach(member => membersArr.push(member.icon))
         todo.members = membersArr
         todo.status = JSON.parse(todo.status)
         todoForm.reset()
-        console.log(todo);
+
 
         request("/todos", "post", todo)
 
+
         request("/containers", "get")
-            .then(res => reloadContainers(res, main))
+            .then(res => {
+                reloadContainers(res, main)
+            })
+
+        request("/containers/" + todo.status, "get")
+            .then(res =>
+                request("/containers/" + todo.status, "patch", { todos_id: [...res.todos_id, todo.id] })
+            )
 
         setTimeout(() => {
             todoModal.style.display = "none"
@@ -276,46 +448,68 @@ todoForm.onsubmit = (e) => {
     }
 }
 
-let main = document.querySelector("main")
+let contModal = document.querySelector(".contModal")
+let contModal_bg = document.querySelector(".contModal_bg")
+let createContForm = document.forms.createContForm
+let containerName = createContForm.querySelector("input")
 
-request("/containers", "get")
-    .then(res => reloadContainers(res, main))
+contModal_bg.onclick = () => {
+    contModal.style.top = "-5%"
+    setTimeout(() => {
+        contModal.style.display = "none"
+    }, 500);
+    contModal_bg.style.opacity = "0"
+    setTimeout(() => {
+        contModal_bg.style.display = "none"
+    }, 500);
 
-function reloadContainers(arr, place) {
-    place.innerHTML = ""
-
-    for (let item of arr) {
-
-        let wrapper = document.createElement("div")
-        let h2 = document.createElement("h2")
-        let todos = document.createElement("div")
-        request("/todos", "get")
-            .then(res => {
-                reloadTodo(res, todos)
-            })
-        wrapper.className = "wrapper"
-        todos.className = "todos"
-        todos.id = item.id
-        h2.contentEditable = `true`
-        h2.innerHTML = item.title
-        wrapper.append(h2, todos)
-        place.append(wrapper)
-
-        todos.ondragover = (event) => {
-            event.preventDefault()
-        }
-        todos.ondragenter = function (event) {
-            event.preventDefault()
-            this.className += ' hovered'
-        }
-        todos.ondragleave = function () {
-            this.className = 'todos'
-        }
-        todos.ondrop = function () {
-            this.className = 'todos'
-            // this.append(JSON.stringify(item))
-        }
-    }
 }
 
- 
+createContForm.onsubmit = (e) => {
+    e.preventDefault()
+
+    let inpFilled = true
+
+    containerName.style.border = "inherit"
+
+    if (containerName.value.length === 0) {
+        inpFilled = false
+        containerName.style.border = "1px solid red"
+    }
+    if (inpFilled) {
+
+        let container = {
+            id: uuidv4(),
+            todos_id: []
+        }
+        let fm = new FormData(createContForm)
+
+        fm.forEach((val, key) => {
+            container[key] = val
+        })
+
+        createContForm.reset()
+        console.log(container);
+
+        request("/containers", "post", container)
+
+        request("/containers", "get")
+            .then(res => {
+                reloadContainers(res, main)
+            })
+
+        request("/containers", "get")
+            .then(res => createStatus(res, status_select))
+
+
+
+        contModal.style.top = "-5%"
+        setTimeout(() => {
+            contModal.style.display = "none"
+        }, 500);
+        contModal_bg.style.opacity = "0"
+        setTimeout(() => {
+            contModal_bg.style.display = "none"
+        }, 500);
+    }
+}
