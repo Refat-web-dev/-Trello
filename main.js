@@ -141,43 +141,35 @@ add_modal_close.forEach(btn => {
 })
 
 search_inp.oninput = (e) => {
-    let val = e.target.value.toLowerCase().trim();
-    let filtered = todos_for_search.filter(item => item.title.toLowerCase().trim().includes(val));
+    let val = e.target.value.toLowerCase().trim()
+
+    let filtered = todos_for_search.filter(item => item.title.toLowerCase().trim().includes(val))
 
     if (val) {
-        let elems = document.querySelectorAll('.finded');
-        elems.forEach(el => el.classList.remove('finded'));
-
-        let topBoundary = null;
-        let bottomBoundary = null;
+        let elems = document.querySelectorAll('.finded')
+        elems.forEach(el => el.classList.remove('finded'))
 
         for (let finded of filtered) {
-            let elem = document.getElementById(finded.id);
-            let { top, bottom } = elem.getBoundingClientRect();
-            elem.classList.add('finded');
+            let elem = document.getElementById(finded.id)
+            let { left, top, height, width } = elem.getBoundingClientRect()
+            console.log(elem.getBoundingClientRect());
+            elem.classList.add('finded')
 
-            if (topBoundary === null || top < topBoundary) {
-                topBoundary = top;
-            }
-
-            if (bottomBoundary === null || bottom > bottomBoundary) {
-                bottomBoundary = bottom;
-            }
-        }
-
-        if (topBoundary !== null && bottomBoundary !== null) {
-            // Если хотя бы один элемент за пределами видимой области, выполните прокрутку к первому из них
-            if (topBoundary < 0 || bottomBoundary > window.innerHeight) {
-                main.scrollTo({
-                    top: topBoundary + main.scrollTop - (window.innerHeight / 2),
-                    behavior: 'smooth'
-                });
-            }
+            main.scrollTo({
+                top: top - (height),
+                left: left - (width),
+                behavior: "smooth"
+            })
         }
     } else {
-        let elems = document.querySelectorAll('.finded');
-        elems.forEach(el => el.classList.remove('finded'));
+        for (let finded of filtered) {
+            let elem = document.getElementById(finded.id)
+            elem.classList.remove('finded')
+        }
     }
+
+
+
 }
 
 let icons = document.querySelectorAll(".icons-cont div")
@@ -501,7 +493,7 @@ createContForm.onsubmit = (e) => {
             })
         request("/todos", "get")
             .then(res => {
-                reloadContainers(res, todos)
+                reloadTodo(res, todos)
             })
 
 
