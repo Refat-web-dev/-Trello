@@ -100,9 +100,7 @@ request("/containers", "get")
 
                 let todos = document.querySelectorAll(".todos")
 
-                todos.forEach(todo_wrap => {
-                    reloadTodo(res, todo_wrap)
-                })
+                reloadTodo(res, todos)
             })
     })
 
@@ -447,8 +445,8 @@ todoForm.onsubmit = (e) => {
     }
 }
 
-let contModal = document.querySelector(".contModal")
-let contModal_bg = document.querySelector(".contModal_bg")
+export let contModal = document.querySelector(".contModal")
+export let contModal_bg = document.querySelector(".contModal_bg")
 let createContForm = document.forms.createContForm
 let containerName = createContForm.querySelector("input")
 
@@ -493,10 +491,12 @@ createContForm.onsubmit = (e) => {
         request("/containers", "get")
             .then(res => {
                 reloadContainers(res, main)
+                createStatus(res, status_select)
             })
-
-        request("/containers", "get")
-            .then(res => createStatus(res, status_select))
+        request("/todos", "get")
+            .then(res => {
+                reloadContainers(res, todos)
+            })
 
 
 

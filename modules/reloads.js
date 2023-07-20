@@ -1,4 +1,4 @@
-import { temp, todoModal, todoModal_bg } from "../main"
+import { contModal, contModal_bg, temp, todoModal, todoModal_bg } from "../main"
 import { useHttp } from "./https.request"
 
 let { request } = useHttp()
@@ -172,8 +172,7 @@ export function reloadTodo(arr, place) {
         date.append(exec_member, span)
 
         let blockToAppend = document.querySelector(`#${item.status}`)
-        console.log(item);
-        
+
         blockToAppend.append(todo)
 
         temp.push(todo)
@@ -182,7 +181,6 @@ export function reloadTodo(arr, place) {
             temp_id = item.id
             todo.classList.add('hold')
             setTimeout(() => (todo.className = 'invisible'), 0)
-            temp_id = item.id
         }
 
         todo.ondragend = () => {
