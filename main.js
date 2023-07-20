@@ -20,7 +20,7 @@ let search_inp = document.querySelector('#search')
 let search_canvas = document.querySelector('.canvas-for-search')
 let main = document.querySelector('main')
 let todos_for_search = []
-
+let todos
 
 
 export let temp = []
@@ -62,6 +62,8 @@ request("/containers", "get")
         all.onclick = () => {
             request("/containers", "get")
                 .then(res => reloadContainers(res, main))
+            request("/todos", "get")
+                .then(res => reloadTodo(res, todos))
         }
 
         for (let item of res) {
@@ -75,9 +77,13 @@ request("/containers", "get")
             board_container.append(p)
 
             p.onclick = () => {
+                console.log(p);
                 let key = p.getAttribute("data-name")
+                let todoKey = p.getAttribute("data-name").toLowerCase().replaceAll(" ", "")
                 request("/containers?title=" + key, "get")
                     .then(res => reloadContainers(res, main))
+                request("/todos?status=" + todoKey, "get")
+                    .then(res => reloadTodo(res, todos))
             }
         }
 
@@ -98,7 +104,7 @@ request("/containers", "get")
             .then(res => {
                 todos_for_search = res
 
-                let todos = document.querySelectorAll(".todos")
+                todos = document.querySelectorAll(".todos")
 
                 reloadTodo(res, todos)
             })

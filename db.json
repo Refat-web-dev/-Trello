@@ -29,6 +29,12 @@
       "name": "Erdem",
       "profession": "Developer",
       "icon": "member2.png"
+    },
+    {
+      "id": "c699e429-eb92-4b13-a83c-060dcf5f4c86",
+      "name": "Elana",
+      "profession": "Designer",
+      "icon": "member1.png"
     }
   ],
   "todos": [
@@ -134,10 +140,20 @@
       "id": "870952a5-9069-4c11-84e0-0d5e103b0560",
       "title": "Learn Karate",
       "description": "want to learn how to panch a men with own hands, or foots",
-      "status": "нужносделать",
+      "status": "elanastasksanderdemscontainer",
       "date": "20.07.2023",
       "members": [
         "member2.png"
+      ]
+    },
+    {
+      "id": "59f2296b-fe48-494f-b62c-2a21c1db626f",
+      "title": "Running",
+      "description": "wake`up  early,  one pair of shoes, mom's permission",
+      "status": "elanastasksanderdemscontainer",
+      "date": "22.07.2023",
+      "members": [
+        "member1.png"
       ]
     }
   ],
@@ -173,6 +189,10 @@
     {
       "id": "f817c7f5-ba5f-4d80-83cb-b736404653e3",
       "title": "reload"
+    },
+    {
+      "id": "c20b7d1a-bddd-4bfc-b7fa-2b1d0077e2c9",
+      "title": "Elanas tasks and Erdems container"
     }
   ]
 }
