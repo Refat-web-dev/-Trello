@@ -22,6 +22,7 @@ let main = document.querySelector('main')
 let todos_for_search = []
 
 
+
 export let temp = []
 
 
@@ -103,12 +104,7 @@ request("/containers", "get")
                     reloadTodo(res, todo_wrap)
                 })
             })
-    }
-
-    )
-
-
-
+    })
 
 open_add_modal.onclick = () => {
     openFunc(add_modal, add_modal_bg)
@@ -141,33 +137,43 @@ add_modal_close.forEach(btn => {
 })
 
 search_inp.oninput = (e) => {
-    let val = e.target.value.toLowerCase().trim()
-
-    let filtered = todos_for_search.filter(item => item.title.toLowerCase().trim().includes(val))
+    let val = e.target.value.toLowerCase().trim();
+    let filtered = todos_for_search.filter(item => item.title.toLowerCase().trim().includes(val));
 
     if (val) {
-        let elems = document.querySelectorAll('.finded')
-        elems.forEach(el => el.classList.remove('finded'))
+        let elems = document.querySelectorAll('.finded');
+        elems.forEach(el => el.classList.remove('finded'));
+
+        let topBoundary = null;
+        let bottomBoundary = null;
 
         for (let finded of filtered) {
-            let elem = document.getElementById(finded.id)
-            let { bottom, top, height } = elem.getBoundingClientRect()
-            elem.classList.add('finded')
+            let elem = document.getElementById(finded.id);
+            let { top, bottom } = elem.getBoundingClientRect();
+            elem.classList.add('finded');
 
-            main.scrollTo({
-                top: top - (height),
-                behavior: "smooth"
-            })
+            if (topBoundary === null || top < topBoundary) {
+                topBoundary = top;
+            }
+
+            if (bottomBoundary === null || bottom > bottomBoundary) {
+                bottomBoundary = bottom;
+            }
+        }
+
+        if (topBoundary !== null && bottomBoundary !== null) {
+            // Если хотя бы один элемент за пределами видимой области, выполните прокрутку к первому из них
+            if (topBoundary < 0 || bottomBoundary > window.innerHeight) {
+                main.scrollTo({
+                    top: topBoundary + main.scrollTop - (window.innerHeight / 2),
+                    behavior: 'smooth'
+                });
+            }
         }
     } else {
-        for (let finded of filtered) {
-            let elem = document.getElementById(finded.id)
-            elem.classList.remove('finded')
-        }
+        let elems = document.querySelectorAll('.finded');
+        elems.forEach(el => el.classList.remove('finded'));
     }
-
-
-
 }
 
 let icons = document.querySelectorAll(".icons-cont div")
@@ -287,8 +293,8 @@ request("/members", "get")
     )
 
 let openTodoModal = document.querySelector(".create")
-let todoModal = document.querySelector(".todoModal")
-let todoModal_bg = document.querySelector(".todoModal_bg")
+export let todoModal = document.querySelector(".todoModal")
+export let todoModal_bg = document.querySelector(".todoModal_bg")
 let todoModal_close = document.querySelectorAll(".todoModal_exit")
 
 openTodoModal.onclick = () => {
@@ -414,7 +420,7 @@ todoForm.onsubmit = (e) => {
         })
         selectedArr.forEach(member => membersArr.push(member.icon))
         todo.members = membersArr
-        todo.status = JSON.parse(todo.status)
+        todo.status = JSON.parse(todo.status.toLowerCase().replaceAll(" ", ""))
         todoForm.reset()
 
 
@@ -425,11 +431,6 @@ todoForm.onsubmit = (e) => {
             .then(res => {
                 reloadContainers(res, main)
             })
-
-        request("/containers/" + todo.status, "get")
-            .then(res =>
-                request("/containers/" + todo.status, "patch", { todos_id: [...res.todos_id, todo.id] })
-            )
 
         setTimeout(() => {
             todoModal.style.display = "none"

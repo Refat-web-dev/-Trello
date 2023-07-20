@@ -1,4 +1,4 @@
-import { temp } from "../main"
+import { temp, todoModal, todoModal_bg } from "../main"
 import { useHttp } from "./https.request"
 
 let { request } = useHttp()
@@ -37,11 +37,11 @@ export function createStatus(arr, place) {
     place.innerHTML = ""
 
     let ghostOpt = new Option(" ", " ")
+    ghostOpt.hidden = true;
 
     for (let item of arr) {
-        let opt = new Option(item.title, JSON.stringify(item.id))
-        ghostOpt.hidden = true;
-        place.append(ghostOpt, opt)
+        let opt = new Option(item.title, JSON.stringify(item.title))
+        place.append(opt)
     }
 }
 
@@ -97,8 +97,6 @@ export function reloadContainers(arr, place) {
         todos.ondrop = function () {
             this.className = 'todos'
             temp.forEach((item) => {
-
-                console.log(item);
                 if (item.id == temp_id) {
                     request("/todos/" + item.id, "patch", {
                         status: this.getAttribute(['data'])
@@ -125,7 +123,7 @@ export function reloadContainers(arr, place) {
 export function reloadTodo(arr, place) {
 
     place.innerHTML = ""
-    
+
     for (let item of arr) {
 
         let todo = document.createElement("div")
@@ -174,9 +172,10 @@ export function reloadTodo(arr, place) {
         date.append(exec_member, span)
 
         let blockToAppend = document.querySelector(`#${item.status}`)
+        console.log(item);
+        
         blockToAppend.append(todo)
 
-        console.log(item.status);
         temp.push(todo)
 
         todo.ondragstart = () => {
@@ -188,6 +187,21 @@ export function reloadTodo(arr, place) {
 
         todo.ondragend = () => {
             todo.className = 'todo'
+        }
+
+
+        pencil.onclick = () => {
+            todoModal.querySelector("#title").value = item.title
+            todoModal.querySelector("textarea").value = item.description
+            todoModal.querySelector("#myDateInput").value = item.date
+
+            setTimeout(() => {
+                todoModal.style.opacity = "1"
+                todoModal.style.scale = "1"
+                todoModal_bg.style.opacity = "1"
+            }, 500);
+            todoModal.style.display = "flex"
+            todoModal_bg.style.display = "block"
         }
 
     }
