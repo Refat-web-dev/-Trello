@@ -48,75 +48,122 @@ export function createStatus(arr, place) {
 // todo reload
 
 let temp_id
+
 // containers
+
 export function reloadContainers(arr, place) {
+    let addCont = document.createElement("div");
+    addCont.className = "addCont";
 
-    let addCont = document.createElement("div")
-
-    addCont.className = "addCont"
-
-    place.innerHTML = ""
-    place.append(addCont)
+    place.innerHTML = "";
+    place.append(addCont);
 
     for (let item of arr) {
+        let data = item.title.toLowerCase().replaceAll(' ', '');
+        let wrapper = document.createElement("div");
+        let h2 = document.createElement("h2");
+        let more = document.createElement("span");
+        let todos = document.createElement("div");
 
-        let data = item.title.toLowerCase().replaceAll(' ', '')
+        more.className = "more";
+        wrapper.className = "wrapper";
+        wrapper.setAttribute("data-status", item.title);
 
-        let wrapper = document.createElement("div")
-        let h2 = document.createElement("h2")
-        let todos = document.createElement("div")
+        todos.className = "todos";
+        todos.setAttribute('data', data);
+        todos.id = item.title.toLowerCase().replaceAll(' ', '');
+        h2.contentEditable = true;
+        h2.innerHTML = item.title;
+        h2.className = "status-edit";
+        h2.id = item.id;
+        more.innerHTML = "...";
+        wrapper.append(h2, more, todos);
+        place.append(wrapper);
 
-        wrapper.className = "wrapper"
-        wrapper.setAttribute("data-status", item.title)
+        let startX; // Начальная позиция по оси X
+        let isDragging = false;
 
-        todos.className = "todos"
-        todos.setAttribute('data', data)
-        todos.id = item.title.toLowerCase().replaceAll(' ', '')
-        h2.contentEditable = `true`
-        h2.innerHTML = item.title
-        h2.className = "status-edit"
-        h2.id = item.id
-
-        wrapper.append(h2, todos)
-        place.append(wrapper)
-
-
-        todos.ondragover = (event) => {
-            event.preventDefault()
+        // Функция для обработки начала перемещения элемента
+        function handleMouseDown(event) {
+            if (event.target === more) { // Проверяем, что событие происходит на элементе "more"
+                isDragging = true;
+                startX = event.clientX - wrapper.offsetLeft;
+            }
         }
+
+        // Функция для обработки перемещения элемента
+        function handleMouseMove(event) {
+            if (isDragging) {
+                const newX = event.clientX - startX;
+                wrapper.style.left = `${newX}px`; // Устанавливаем новую позицию элемента по оси X
+            }
+        }
+
+        // Функция для обработки окончания перемещения элемента
+        function handleMouseUp() {
+            isDragging = false;
+        }
+
+        // Добавляем обработчики событий только для элемента "more"
+        more.addEventListener("mousedown", handleMouseDown);
+        document.addEventListener("mousemove", handleMouseMove);
+        document.addEventListener("mouseup", handleMouseUp);
+
+        h2.onkeydown = () => {
+            request("/containers/" + h2.id, "patch", { title: h2.innerHTML });
+
+            request("/todos", "get").then(res => {
+                res.forEach(todo => {
+                    console.log(todo);
+                    if (todo.status === todos.getAttribute("data")) {
+                        request("/todos/" + todo.id, "patch", {
+                            status: h2.innerHTML.toLowerCase().replaceAll(" ", "")
+                        });
+                    }
+                });
+            });
+        };
+
+        todos.ondragover = event => {
+            event.preventDefault();
+        };
 
         todos.ondragenter = function (event) {
-            event.preventDefault()
-            this.className += ' hovered'
-        }
+            event.preventDefault();
+            this.className += ' hovered';
+        };
 
         todos.ondragleave = function () {
-            this.className = 'todos'
-        }
+            this.className = 'todos';
+        };
 
         todos.ondrop = function () {
-            this.className = 'todos'
-            temp.forEach((item) => {
+            this.className = 'todos';
+            let todosBlock = document.querySelectorAll('.todo');
+            todosBlock.forEach(el => el.style.margin = "0");
+            temp.forEach(item => {
                 if (item.id == temp_id) {
                     request("/todos/" + item.id, "patch", {
                         status: this.getAttribute(['data'])
-                    })
-                    this.append(item)
+                    });
+                    this.append(item);
                 }
-            })
-        }
+            });
+        };
+
         addCont.onclick = () => {
-            contModal.style.display = "block"
+            contModal.style.display = "block";
             setTimeout(() => {
-                contModal.style.top = "12%"
+                contModal.style.top = "12%";
             }, 0);
-            contModal_bg.style.display = "block"
+            contModal_bg.style.display = "block";
             setTimeout(() => {
-                contModal_bg.style.opacity = "1"
+                contModal_bg.style.opacity = "1";
             }, 0);
-        }
+        };
     }
 }
+
 
 // reload todo
 
@@ -137,7 +184,7 @@ export function reloadTodo(arr, place) {
 
         for (let avatar of item.members) {
             let img = document.createElement("img")
-            img.src = `/public/icons/${avatar}`
+            img.src = `icons/${avatar}`
             todo_members.append(img)
         }
 
@@ -187,6 +234,24 @@ export function reloadTodo(arr, place) {
             todo.className = 'todo'
         }
 
+        let todos = document.querySelectorAll('.todo')
+
+        todos.forEach(card => {
+            card.ondragenter = function (e) {
+                let center = card.getBoundingClientRect().height / 2
+                let {
+                    layerY
+                } = e
+                todos.forEach(card => card.style.margin = "0px")
+
+                if (layerY > center) {
+                    card.style.marginBottom = "146px"
+                } else {
+                    card.style.marginTop = "146px"
+                }
+
+            }
+        });
 
         pencil.onclick = () => {
             todoModal.querySelector("#title").value = item.title

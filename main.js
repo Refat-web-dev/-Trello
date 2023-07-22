@@ -90,16 +90,6 @@ request("/containers", "get")
 
     }).then(() => {
 
-        let status_list = main.querySelectorAll(".status-edit")
-
-        status_list.forEach(h2 => {
-
-            h2.onkeyup = () => {
-
-                request("/containers/" + h2.id, "patch", { title: h2.innerHTML })
-            }
-        })
-
         request("/todos", "get")
             .then(res => {
                 todos_for_search = res
@@ -139,11 +129,18 @@ add_modal_close.forEach(btn => {
         })
     }
 })
-
 search_inp.oninput = (e) => {
     let val = e.target.value.toLowerCase().trim()
 
-    let filtered = todos_for_search.filter(item => item.title.toLowerCase().trim().includes(val))
+    let filtered = todos_for_search.filter(item => item.title.toLowerCase().trim() === val)
+    if (search_inp.value.length === 0 || filtered.length === 0) {
+
+        main.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: "smooth"
+        })
+    }
 
     if (val) {
         let elems = document.querySelectorAll('.finded')
@@ -422,11 +419,12 @@ todoForm.onsubmit = (e) => {
 
         request("/todos", "post", todo)
 
+        location.reload()
 
-        request("/containers", "get")
-            .then(res => {
-                reloadContainers(res, main)
-            })
+        // request("/containers", "get")
+        //     .then(res => {
+        //         reloadContainers(res, main)
+        //     })
 
         setTimeout(() => {
             todoModal.style.display = "none"
@@ -486,16 +484,17 @@ createContForm.onsubmit = (e) => {
 
         request("/containers", "post", container)
 
-        request("/containers", "get")
-            .then(res => {
-                reloadContainers(res, main)
-                createStatus(res, status_select)
-            })
-        request("/todos", "get")
-            .then(res => {
-                reloadTodo(res, todos)
-            })
+        // request("/containers", "get")
+        //     .then(res => {
+        //         reloadContainers(res, main)
+        //         createStatus(res, status_select)
+        //     })
+        // request("/todos", "get")
+        //     .then(res => {
+        //         reloadTodo(res, todos)
+        //     })
 
+        location.reload()
 
 
         contModal.style.top = "-5%"

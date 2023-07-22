@@ -305,7 +305,7 @@ header {
         flex-direction: column;
         gap: 5px;
         align-items: start;
-        top: 210px;
+        top: calc(0% + 270px);
         left: 395px;
         z-index: 1;
         padding: 15px;
@@ -512,6 +512,7 @@ main {
     }
 
     .wrapper {
+        position: relative;
         padding: 15px;
         border-radius: 10px;
         background: #101204;
@@ -926,4 +927,39 @@ main {
 .contModal_bg {
     @include modal_bg();
     transition: .5s linear;
+}
+
+.more {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: all-scroll;
+    transition: .3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 10px 15px;
+    height: 1px;
+    border-radius: 3px;
+
+    &:hover {
+        background: #636262;
+    }
+}
+
+.trash {
+    position: fixed;
+    bottom: 10px;
+    left: 50px;
+    opacity: 0;
+    transition: opacity 600ms, bottom 600ms cubic-bezier(0.305, 0.015, 0.35, 1.385);
+
+    &:hover {
+        opacity: 1;
+    }
+
+    .cover {
+        // rotate: 45deg;
+        rotate: 50deg;
+    }
 }
